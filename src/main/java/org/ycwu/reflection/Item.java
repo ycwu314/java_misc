@@ -4,6 +4,8 @@ public class Item {
 	private int id;
 	private String name;
 
+	public static int code;
+	
 	public int getId() {
 		return id;
 	}
