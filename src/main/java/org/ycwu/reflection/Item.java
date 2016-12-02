@@ -24,9 +24,17 @@ public class Item {
 		this.name = name;
 	}
 
-	@Override
-	public String toString() {
-		return "Item [id=" + id + ", name=" + name + "]";
+	// below 2 methods are for TestMethod
+	public void doSomething() {
+
+	}
+
+	public int doSomething(int x) {
+		return x;
+	}
+	
+	public static int doStaticSomething(int x){
+		return x;
 	}
 
 }
