@@ -1,5 +1,6 @@
 package org.ycwu.reflection;
 
+import java.lang.reflect.Array;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -55,6 +56,46 @@ public class TestGeneric {
 		if (superType2 instanceof ParameterizedType) {
 			System.out.println(((ParameterizedType) superType2).getActualTypeArguments()[0]);
 		}
+	}
+
+	@Test
+	public void testGenericArray() {
+		ArrayMaker<Integer> arrayMaker = new ArrayMaker(Integer.class);
+		int length = 10;
+		Integer[] a1 = arrayMaker.makeArray(length);
+		for (int i = 0; i < length; i++) {
+			a1[i] = i;
+		}
+
+		List<Integer> list = arrayMaker.makeList(length);
+		for (int i = 0; i < length; i++) {
+			list.add(i);
+		}
+	}
+}
+
+class ArrayMaker<T> {
+	private Class<T> type;
+
+	public ArrayMaker(Class type) {
+		this.type = type;
+	}
+
+	/*
+	 * Even though kind is stored as Class<T> , erasure means that it is
+	 * actually just being stored as a Class, with no parameter. So, when you do
+	 * some thing with it, as in creating an array, Array.newInstance( ) doesn¡¯t
+	 * actually have the type information that¡¯s implied in kind; so it cannot
+	 * produce the specific result, which must therefore be cast, which produces
+	 * a warning that you cannot satisfy.
+	 */
+	@SuppressWarnings("unchecked")
+	public T[] makeArray(int length) {
+		return (T[]) Array.newInstance(type, length);
+	}
+
+	public List<T> makeList(int length) {
+		return new ArrayList<T>(length);
 	}
 
 }
