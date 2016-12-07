@@ -64,7 +64,11 @@ public class TestGeneric {
 		int length = 10;
 		Integer[] a1 = arrayMaker.makeArray(length);
 		for (int i = 0; i < length; i++) {
-			a1[i] = i;
+			Array.set(a1, i, i);
+		}
+
+		for (int i = 0; i < length; i++) {
+			System.out.println((Integer) Array.get(a1, i));
 		}
 
 		List<Integer> list = arrayMaker.makeList(length);
