@@ -24,6 +24,9 @@ import org.junit.Test;
 import com.esotericsoftware.kryo.Kryo;
 import com.esotericsoftware.kryo.io.Input;
 import com.esotericsoftware.kryo.io.Output;
+import com.esotericsoftware.kryo.pool.KryoCallback;
+import com.esotericsoftware.kryo.pool.KryoFactory;
+import com.esotericsoftware.kryo.pool.KryoPool;
 import com.esotericsoftware.kryo.serializers.CollectionSerializer;
 import com.esotericsoftware.kryo.serializers.FieldSerializer;
 
@@ -203,7 +206,8 @@ public class TestKryo {
 	}
 
 	/**
-	 * serialization and deserialization must use the same class & field serializer 
+	 * serialization and deserialization must use the same class & field
+	 * serializer
 	 */
 	@Test
 	public void test7() {
@@ -303,6 +307,33 @@ public class TestKryo {
 		assertEquals(item.getId(), item2.getId());
 	}
 
+	/**
+	 * 
+	 */
+	@Test
+	public void test() {
+		KryoFactory factory = new KryoFactory() {
+
+			@Override
+			public Kryo create() {
+				// TODO Auto-generated method stub
+				return new Kryo();
+			}
+		};
+
+		KryoPool pool = new KryoPool.Builder(factory).softReferences().build();
+
+		pool.run(new KryoCallback<String>() {
+
+			@Override
+			public String execute(Kryo kryo) {
+				// TODO Auto-generated method stub
+				return null;
+			}
+
+		});
+
+	}
 
 }
 
